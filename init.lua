@@ -703,6 +703,9 @@ travelnet.on_receive_fields = function(pos, formname, fields, player)
          minetest.chat_send_player(name, "Error: Unkown node.");
          return
       end
+
+      --[[ The following checks for the owner before removing the travelnet box
+         commenting it out allows anyone to remove them
       -- players with travelnet_remove priv can dig the station
       if( not(minetest.check_player_privs(name, {travelnet_remove=true}))
        -- the function travelnet.allow_dig(..) may allow additional digging
@@ -714,6 +717,7 @@ travelnet.on_receive_fields = function(pos, formname, fields, player)
          minetest.chat_send_player(name, S("This %s belongs to %s. You can't remove it."):format(description, tostring( meta:get_string('owner'))));
          return
       end
+      --]]
 
       local pinv = player:get_inventory()
       if(not(pinv:room_for_item("main", node.name))) then
